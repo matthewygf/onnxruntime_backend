@@ -92,11 +92,10 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.11-Linux-x86
 
 # Allow configure to pick up cuDNN where it expects it.
 # (Note: $CUDNN_VERSION is defined by base image)
-RUN _CUDNN_VERSION=$(echo $CUDNN_VERSION | cut -d. -f1-2) && \
-    mkdir -p /usr/local/cudnn-$_CUDNN_VERSION/cuda/include && \
-    ln -s /usr/include/cudnn.h /usr/local/cudnn-$_CUDNN_VERSION/cuda/include/cudnn.h && \
-    mkdir -p /usr/local/cudnn-$_CUDNN_VERSION/cuda/lib64 && \
-    ln -s /etc/alternatives/libcudnn_so /usr/local/cudnn-$_CUDNN_VERSION/cuda/lib64/libcudnn.so
+RUN mkdir -p /usr/local/cudnn-${CUDNN_VERSION}/cuda/include && \
+    ln -s /usr/include/cudnn.h /usr/local/cudnn-${CUDNN_VERSION}/cuda/include/cudnn.h && \
+    mkdir -p /usr/local/cudnn-${CUDNN_VERSION}/cuda/lib64 && \
+    ln -s /etc/alternatives/libcudnn_so /usr/local/cudnn-${CUDNN_VERSION}/cuda/lib64/libcudnn.so
 '''
 
     if FLAGS.ort_openvino is not None:
