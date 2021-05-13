@@ -44,8 +44,7 @@ def dockerfile_common():
 ARG BASE_IMAGE={}
 ARG ONNXRUNTIME_VERSION={}
 ARG ONNXRUNTIME_REPO=https://github.com/microsoft/onnxruntime
-ARG CUDNN_VERSION={}
-'''.format(FLAGS.triton_container, FLAGS.ort_version, FLAGS.cudnn_version)
+'''.format(FLAGS.triton_container, FLAGS.ort_version)
 
     if FLAGS.ort_openvino is not None:
         df += '''
@@ -157,13 +156,8 @@ RUN cd /workspace/onnxruntime/onnxruntime/core/providers/shared_library && \
     df += '''
 WORKDIR /workspace/onnxruntime
 ARG COMMON_BUILD_ARGS="--config Release --skip_submodule_sync --parallel --build_shared_lib --use_openmp --build_dir /workspace/build"
-ARG CUDNN_VERSION={}
-RUN mkdir -p /usr/local/cudnn-${{CUDNN_VERSION}}/cuda/include && \
-    ln -s /usr/include/cudnn.h /usr/local/cudnn-${{CUDNN_VERSION}}/cuda/include/cudnn.h && \
-    mkdir -p /usr/local/cudnn-${{CUDNN_VERSION}}/cuda/lib64 && \
-    ln -s /etc/alternatives/libcudnn_so /usr/local/cudnn-${{CUDNN_VERSION}}/cuda/lib64/libcudnn.so
 RUN ./build.sh ${{COMMON_BUILD_ARGS}} --update --build {}
-'''.format(FLAGS.cudnn_version, ep_flags)
+'''.format(ep_flags)
 
     df += '''
 #
