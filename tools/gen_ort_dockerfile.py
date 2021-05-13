@@ -445,7 +445,7 @@ if __name__ == '__main__':
         if FLAGS.cuda_home is None:
             FLAGS.cuda_home = '/usr/local/cuda'
         
-        if FLAGS.cudnn_version and FLAGS.cudnn_home is None:
+        if FLAGS.cudnn_version:
             FLAGS.cudnn_home = '/usr/local/cudnn-{}/cuda'.format(FLAGS.cudnn_version)
         
         if (FLAGS.cuda_home is None) or (FLAGS.cudnn_home is None):
