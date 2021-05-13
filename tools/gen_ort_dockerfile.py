@@ -44,7 +44,8 @@ def dockerfile_common():
 ARG BASE_IMAGE={}
 ARG ONNXRUNTIME_VERSION={}
 ARG ONNXRUNTIME_REPO=https://github.com/microsoft/onnxruntime
-'''.format(FLAGS.triton_container, FLAGS.ort_version)
+ARG CUDNN_VERSION={}
+'''.format(FLAGS.triton_container, FLAGS.ort_version, FLAGS.cudnn_version)
 
     if FLAGS.ort_openvino is not None:
         df += '''
@@ -364,6 +365,10 @@ if __name__ == '__main__':
                         type=str,
                         required=False,
                         help='Version for CUDA.')
+    parser.add_argument('--cudnn-version',
+                        type=str,
+                        required=False,
+                        help='Version for CUDNN.')
     parser.add_argument('--cuda-home',
                         type=str,
                         required=False,
@@ -433,6 +438,10 @@ if __name__ == '__main__':
                 version = m.group(1)
             if FLAGS.cudnn_home is None:
                 FLAGS.cudnn_home = '/usr/local/cudnn-{}/cuda'.format(version)
+            
+            if FLAGS.cudnn_version is None:
+                FLAGS.cudnn_version = version
+            
 
         if FLAGS.cuda_home is None:
             FLAGS.cuda_home = '/usr/local/cuda'
