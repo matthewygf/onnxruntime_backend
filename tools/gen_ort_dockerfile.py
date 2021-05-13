@@ -434,10 +434,10 @@ if __name__ == '__main__':
             m = re.match(r'([0-9]\.[0-9])\.[0-9]\.[0-9]', os.environ['CUDNN_VERSION'])
             if m:
                 version = m.group(1)
-            if FLAGS.cudnn_home is None:
+            if FLAGS.cudnn_home is None and version is not None:
                 FLAGS.cudnn_home = '/usr/local/cudnn-{}/cuda'.format(version)
             
-            if FLAGS.cudnn_version is None:
+            if FLAGS.cudnn_version is None and version is not None:
                 FLAGS.cudnn_version = version
             
 
